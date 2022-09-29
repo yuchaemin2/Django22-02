@@ -9,7 +9,7 @@ class PostList(ListView):
     #템플릿 모델명_list.html : post_list.html
     #파라미터 모델명_list : post_list
 
-class PostList(DetailView):
+class PostDetail(DetailView):
     model = Post
     # 템플릿 모델명_detail.html : post_detail.html
     # 파라미터 모델명 : post
