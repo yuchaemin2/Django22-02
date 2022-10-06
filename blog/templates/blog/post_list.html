@@ -84,7 +84,7 @@
             {% if p.head_image %}
             <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}}의 head_image" />
             {% else %}
-            <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.pk}}/800/200" alt="random image" />
+            <img class="card-img-top" src="https://picsum.photos/seed/{{p.pk}}/800/200" alt="random image" />
             {% endif %}
           <div class="card-body">
               <h2 class="card-title">{{p.title}}</h2>
