@@ -53,3 +53,9 @@ class TestView(TestCase):
         navbar = soup.nav
         self.assertIn('Blog', navbar.text)
         self.assertIn('AboutMe', navbar.text)
+
+        self.assertIn(post_001.title, soup.title.text)
+
+        main_area = soup.find('div', id='main-area')
+        post_area = main_area.find('div', id='post-area')
+        self.assertIn(post_001.content, post_area.text)
