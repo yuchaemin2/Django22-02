@@ -8,6 +8,10 @@ class TestView(TestCase):
     def setUp(self):
         self.client = Client()
 
+    def nav_test(self, soup):
+        navbar = soup.nav
+        self.assertIn('Blog', navbar.text)
+        self.assertIn('AboutMe', navbar.text)
 
     def test_post_list(self):
         response = self.client.get('/blog/')
@@ -19,9 +23,10 @@ class TestView(TestCase):
         self.assertEqual(soup.title.text, 'Blog')
 
         # navbar가 정상적으로 보이는지
-        navbar = soup.nav
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('AboutMe', navbar.text)
+        #navbar = soup.nav
+        #self.assertIn('Blog', navbar.text)
+        #self.assertIn('AboutMe', navbar.text)
+        self.nav_test(soup)
 
         # Post가 정상적으로 보이는지
         # 1. 맨 처음엔 Post가 하나도 안보임
@@ -50,12 +55,14 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        navbar = soup.nav
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('AboutMe', navbar.text)
+        #navbar = soup.nav
+        #self.assertIn('Blog', navbar.text)
+        #self.assertIn('AboutMe', navbar.text)
+        self.nav_test(soup)
 
         self.assertIn(post_001.title, soup.title.text)
 
         main_area = soup.find('div', id='main-area')
         post_area = main_area.find('div', id='post-area')
+        self.assertIn(post_001.title, post_area.text)
         self.assertIn(post_001.content, post_area.text)
