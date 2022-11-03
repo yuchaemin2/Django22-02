@@ -4,6 +4,29 @@ import os
 
 
 # Create your models here.
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return f'/blog/tag/{self.slug}'
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return f'/blog/category/{self.slug}'
+
+    class Meta: #미리 지정해 놓은 몇 개의 단어를 바꾼다
+        verbose_name_plural = 'Categories'
+
 class Post(models.Model):
     title = models.CharField(max_length=30)
     hook_text = models.CharField(max_length=100, blank=True)
@@ -18,6 +41,12 @@ class Post(models.Model):
 
     # 추후 author 작성
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    #작성자가 데이터베이스에서 삭제되었을 떄 이 포스트도 같이 삭제한다. = on_delete=models.CASCADE
+
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
+    #카테고리가 삭제된 경우 연결된 포스트까지 삭제되지 않고 해당 포스트의 카테고리 필드만 Null이 되도록.!
+
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return f'[{self.pk}]{self.title}:: {self.author} : {self.created_at}'
@@ -34,4 +63,3 @@ class Post(models.Model):
         # b.docx -> b docx
         # c.xlsx -> c xlsx
         # a.b.c.txt -> a b c txt
-

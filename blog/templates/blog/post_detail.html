@@ -18,8 +18,15 @@
                             <div class="text-muted fst-italic mb-2">
                                 Posted on {{post.created_at | date:"Y-m-d h:m:s"}} by {{post.author | upper}}</div>
                             <!-- Post categories-->
-                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                            {% if post.category %}
+                                <span class="badge bg-secondary text-decoration-none link-light">
+                                    <a href="{{post.category.get_absolute_url}}">{{post.category}}</a>
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary text-decoration-none link-light">
+                                    <a href="/blog/category/no_category">미분류</a>
+                                </span>
+                            {% endif %}
                         </header>
                         <!-- Preview image figure-->
                         <figure class="mb-4">
@@ -32,6 +39,15 @@
                         <!-- Post content-->
                         <section class="mb-5">
                             <p class="fs-5 mb-4">{{post.content}}</p>
+                            {% if post.tags.exists %}
+                                <i class="fas fa-tag"></i>
+                                {% for t in post.tags.iterator %}
+                                    <span class="badge badge-pill badge-light">
+                                        <a href="{{t.get_absolute_url}}">{{t}}</a>
+                                    </span>
+                                {% endfor %}
+                                 <br><br>
+                            {% endif %}
                             {% if post.file_upload %}
                             <a href="{{post.file_upload.url}}" class="btn btn-outline-dark" role="button" download>
                                 {% if post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
@@ -88,5 +104,4 @@
                             </div>
                         </div>
                     </div>
-                </div>
 {% endblock %}
