@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [ #IP주소/
     path('admin/', admin.site.urls), #IP 주소/admin
     path('blog/', include('blog.urls')), #IP 주소/blog
-    path('', include('single_pages.urls')) #IP주소/blog, admin이 아닌것은 모두 여기로
+    path('', include('single_pages.urls')), #IP주소/blog, admin이 아닌것은 모두 여기로
+    path('accounts/', include('allauth.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
