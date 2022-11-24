@@ -10,6 +10,7 @@ urlpatterns = [ #IP 주소/blog
     path('update_post/<int:pk>/', views.PostUpdate.as_view()),
     path('category/<str:slug>/', views.Category_page),
     path('tag/<str:slug>/', views.Tag_page),  #IP주소 /blog/tag/slug/
+    path('search/<str:q>/', views.PostSearch.as_view())
 
     #path('', views.index),  #IP 주소/blog
     #path('<int:pk>/', views.single_post_page)
